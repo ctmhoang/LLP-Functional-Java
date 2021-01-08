@@ -1,3 +1,5 @@
+package Problem1;
+
 import java.util.List;
 
 public class Car {
@@ -43,7 +45,7 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "Problem1.Car{" +
                 "gasLevel=" + gasLevel +
                 ", color='" + color + '\'' +
                 ", passengers=" + passengers +
