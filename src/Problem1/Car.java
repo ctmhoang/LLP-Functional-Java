@@ -52,4 +52,17 @@ public class Car {
                 "," + (trunkContents == null ? "no trunk" : "trunkContents=" + trunkContents) +
                 '}';
     }
+
+    public static class GasLevelCriterion implements CarCriterion {
+        private int threshold;
+
+        public GasLevelCriterion(int threshold) {
+            this.threshold = threshold;
+        }
+
+        @Override
+        public boolean test(Car c) {
+            return c.getGasLevel() >= threshold;
+        }
+    }
 }

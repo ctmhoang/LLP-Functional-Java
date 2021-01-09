@@ -20,18 +20,7 @@ public class CarScratch {
     }
 
 
-    private static class GasLevelCriterion implements CarCriterion {
-        private int threshold;
 
-        public GasLevelCriterion(int threshold) {
-            this.threshold = threshold;
-        }
-
-        @Override
-        public boolean test(Car c) {
-            return c.getGasLevel() >= threshold;
-        }
-    }
 
     public static void main(String[] args) {
         var cars = Arrays.asList(
@@ -46,7 +35,7 @@ public class CarScratch {
         CarCriterion redCarCriterion = c -> c.getColor().equalsIgnoreCase("red");
         showAll(getCarByCriterion(cars, redCarCriterion));
 
-        showAll(getCarByCriterion(cars, new GasLevelCriterion(6)));
+        showAll(getCarByCriterion(cars, new Car.GasLevelCriterion(6)));
 
         Comparator<Car> passengerCountOrder = Comparator.comparingInt(c -> c.getPassengers().size());
         cars.sort(passengerCountOrder);
