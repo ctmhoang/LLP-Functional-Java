@@ -32,8 +32,7 @@ public class CarScratch {
         );
         showAll(cars);
 
-        CarCriterion redCarCriterion = c -> c.getColor().equalsIgnoreCase("red");
-        showAll(getCarByCriterion(cars, redCarCriterion));
+        showAll(getCarByCriterion(cars, Car.getRedCarCriterion()));
 
         showAll(getCarByCriterion(cars, new Car.GasLevelCriterion(6)));
 
