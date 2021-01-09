@@ -53,13 +53,24 @@ public class Car {
                 '}';
     }
 
-    public static CarCriterion getRedCarCriterion(){
+    public static CarCriterion getRedCarCriterion() {
         return RED_CAR_CRITERION;
     }
 
-    private static final CarCriterion RED_CAR_CRITERION =  c -> c.getColor().equalsIgnoreCase("red");
+    private static final CarCriterion RED_CAR_CRITERION =  /*c -> c.getColor().equalsIgnoreCase("red");*/
+            new CarCriterion() {
+                @Override
+                public boolean test(Car c) {
+                    return c.getColor().equalsIgnoreCase("red");
+                }
+            };
 
-    public static class GasLevelCriterion implements CarCriterion {
+
+    public static CarCriterion getGasLevelCriterion(int thresold) {
+        return new GasLevelCriterion(thresold);
+    }
+
+    private static class GasLevelCriterion implements CarCriterion {
         private int threshold;
 
         public GasLevelCriterion(int threshold) {

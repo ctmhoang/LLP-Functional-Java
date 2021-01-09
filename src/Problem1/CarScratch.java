@@ -34,7 +34,7 @@ public class CarScratch {
 
         showAll(getCarByCriterion(cars, Car.getRedCarCriterion()));
 
-        showAll(getCarByCriterion(cars, new Car.GasLevelCriterion(6)));
+        showAll(getCarByCriterion(cars,  Car.getGasLevelCriterion(6)));
 
         Comparator<Car> passengerCountOrder = Comparator.comparingInt(c -> c.getPassengers().size());
         cars.sort(passengerCountOrder);
