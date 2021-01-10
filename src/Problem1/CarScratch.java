@@ -1,25 +1,22 @@
 package Problem1;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CarScratch {
 
-    public static void showAll(List<Car> lc) {
-        for (Car c : lc) {
+    public static <E> void showAll(List<E> lc) {
+        for (E c : lc) {
             System.out.println(c);
         }
         System.out.println("-------------------------------------");
     }
 
-    public static List<Car> getCarByCriterion(Iterable<Car> in, CarCriterion crit) {
+    public static <E> List<E> getByCriterion(Iterable<E> in, Criterion crit) {
         return StreamSupport.stream(in.spliterator(), false).filter(crit::test).collect(Collectors.toUnmodifiableList());
     }
-
-
 
 
     public static void main(String[] args) {
@@ -32,12 +29,11 @@ public class CarScratch {
         );
         showAll(cars);
 
-        showAll(getCarByCriterion(cars, Car.getRedCarCriterion()));
+        showAll(getByCriterion(cars, Car.getRedCarCriterion()));
 
-        showAll(getCarByCriterion(cars,  Car.getGasLevelCriterion(6)));
+        showAll(getByCriterion(cars, Car.getGasLevelCriterion(6)));
 
-        Comparator<Car> passengerCountOrder = Comparator.comparingInt(c -> c.getPassengers().size());
-        cars.sort(passengerCountOrder);
+        cars.sort(Car.getPassengerCountOrder());
         showAll(cars);
 
     }

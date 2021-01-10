@@ -1,5 +1,6 @@
 package Problem1;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Car {
@@ -53,24 +54,19 @@ public class Car {
                 '}';
     }
 
-    public static CarCriterion getRedCarCriterion() {
+    public static Criterion getRedCarCriterion() {
         return RED_CAR_CRITERION;
     }
 
-    private static final CarCriterion RED_CAR_CRITERION =  /*c -> c.getColor().equalsIgnoreCase("red");*/
-            new CarCriterion() {
-                @Override
-                public boolean test(Car c) {
-                    return c.getColor().equalsIgnoreCase("red");
-                }
-            };
+    private static final Criterion<Car> RED_CAR_CRITERION =
+            c -> c.getColor().equalsIgnoreCase("red");
 
 
-    public static CarCriterion getGasLevelCriterion(int thresold) {
+    public static Criterion getGasLevelCriterion(int thresold) {
         return new GasLevelCriterion(thresold);
     }
 
-    private static class GasLevelCriterion implements CarCriterion {
+    private static class GasLevelCriterion implements Criterion<Car> {
         private int threshold;
 
         public GasLevelCriterion(int threshold) {
@@ -81,5 +77,11 @@ public class Car {
         public boolean test(Car c) {
             return c.getGasLevel() >= threshold;
         }
+    }
+
+    private static final Comparator<Car> PASSENGER_COUNT_ORDER = Comparator.comparingInt(c -> c.getPassengers().size());
+
+    public static Comparator<Car> getPassengerCountOrder() {
+        return PASSENGER_COUNT_ORDER;
     }
 }
