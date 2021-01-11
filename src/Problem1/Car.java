@@ -1,7 +1,6 @@
 package Problem1;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Car {
 
@@ -59,11 +58,16 @@ public class Car {
     }
 
     private static final Criterion<Car> RED_CAR_CRITERION =
-            c -> c.getColor().equalsIgnoreCase("red");
+            c -> c.color.equalsIgnoreCase("red");
 
 
     public static Criterion<Car> getGasLevelCriterion(int threshold) {
-        return c -> c.getGasLevel() >= threshold;
+        return c -> c.gasLevel >= threshold;
+    }
+
+    public  static Criterion<Car> getColorCriterion(String... colors){
+        Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
+        return c -> colorSet.contains(c.getColor());
     }
 
     private static final Comparator<Car> PASSENGER_COUNT_ORDER = Comparator.comparingInt(c -> c.getPassengers().size());
@@ -71,4 +75,5 @@ public class Car {
     public static Comparator<Car> getPassengerCountOrder() {
         return PASSENGER_COUNT_ORDER;
     }
+
 }
