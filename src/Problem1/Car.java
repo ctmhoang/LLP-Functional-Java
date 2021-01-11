@@ -63,12 +63,7 @@ public class Car {
 
 
     public static Criterion<Car> getGasLevelCriterion(int threshold) {
-        return new Criterion<Car>() {
-            @Override
-            public boolean test(Car c) {
-                return c.getGasLevel() >= threshold;
-            }
-        };
+        return c -> c.getGasLevel() >= threshold;
     }
 
     private static final Comparator<Car> PASSENGER_COUNT_ORDER = Comparator.comparingInt(c -> c.getPassengers().size());
