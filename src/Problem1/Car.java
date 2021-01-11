@@ -62,21 +62,13 @@ public class Car {
             c -> c.getColor().equalsIgnoreCase("red");
 
 
-    public static Criterion getGasLevelCriterion(int thresold) {
-        return new GasLevelCriterion(thresold);
-    }
-
-    private static class GasLevelCriterion implements Criterion<Car> {
-        private int threshold;
-
-        public GasLevelCriterion(int threshold) {
-            this.threshold = threshold;
-        }
-
-        @Override
-        public boolean test(Car c) {
-            return c.getGasLevel() >= threshold;
-        }
+    public static Criterion<Car> getGasLevelCriterion(int threshold) {
+        return new Criterion<Car>() {
+            @Override
+            public boolean test(Car c) {
+                return c.getGasLevel() >= threshold;
+            }
+        };
     }
 
     private static final Comparator<Car> PASSENGER_COUNT_ORDER = Comparator.comparingInt(c -> c.getPassengers().size());
