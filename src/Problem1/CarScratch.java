@@ -18,19 +18,6 @@ public class CarScratch {
         return StreamSupport.stream(in.spliterator(), false).filter(crit::test).collect(Collectors.toUnmodifiableList());
     }
 
-    public static <E> Criterion<E> negate(Criterion<E> crit) {
-        return c -> !crit.test(c);
-    }
-
-    public static <E> Criterion<E> and(Criterion<E>... crits) {
-        return c -> Arrays.stream(crits).allMatch(crit -> crit.test(c));
-    }
-
-    public static <E> Criterion<E> or(Criterion<E>... crits) {
-        return c -> Arrays.stream(crits).anyMatch(crit -> crit.test(c));
-    }
-
-
     public static void main(String[] args) {
         var cars = Arrays.asList(
                 Car.withGasColorPassengers(6, "Red", "Fred", "Jim", "Sheila"),
@@ -53,17 +40,17 @@ public class CarScratch {
         Criterion<Car> level7 = Car.getGasLevelCriterion(7);
         showAll(getByCriterion(cars, level7));
 
-        Criterion<Car> notLevel7 = negate(level7);
+        Criterion<Car> notLevel7 = Criterion.negate(level7);
         showAll(getByCriterion(cars, notLevel7));
 
 
         Criterion<Car> isRed = Car.getColorCriterion("Red");
         Criterion<Car> fourPassengers = c -> c.getPassengers().size() == 4;
-        Criterion<Car> redFourPassengers = and(isRed,fourPassengers);
+        Criterion<Car> redFourPassengers = Criterion.and(isRed,fourPassengers);
         showAll(getByCriterion(cars, redFourPassengers));
 
         Criterion<Car> isBlack = Car.getColorCriterion("Black");
-        Criterion<Car> blackOrFourPassenger = or(isBlack,fourPassengers);
+        Criterion<Car> blackOrFourPassenger = Criterion.or(isBlack,fourPassengers);
         showAll(getByCriterion(cars, blackOrFourPassenger));
 
 
