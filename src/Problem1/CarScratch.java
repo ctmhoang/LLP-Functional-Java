@@ -2,6 +2,7 @@ package Problem1;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -14,7 +15,7 @@ public class CarScratch {
         System.out.println("-------------------------------------");
     }
 
-    public static <E> List<E> getByCriterion(Iterable<E> in, Criterion crit) {
+    public static <E> List<E> getByCriterion(Iterable<E> in, Predicate crit) {
         return StreamSupport.stream(in.spliterator(), false).filter(crit::test).collect(Collectors.toUnmodifiableList());
     }
 
@@ -37,20 +38,20 @@ public class CarScratch {
 
 //        showAll(getByCriterion(cars, Car.getColorCriterion("Red", "Black")));
 
-        Criterion<Car> level7 = Car.getGasLevelCriterion(7);
+        Predicate<Car> level7 = Car.getGasLevelCriterion(7);
         showAll(getByCriterion(cars, level7));
 
-        Criterion<Car> notLevel7 = Criterion.negate(level7);
+        Predicate<Car> notLevel7 = Predicate.not(level7);
         showAll(getByCriterion(cars, notLevel7));
 
 
-        Criterion<Car> isRed = Car.getColorCriterion("Red");
-        Criterion<Car> fourPassengers = c -> c.getPassengers().size() == 4;
-        Criterion<Car> redFourPassengers = Criterion.and(isRed,fourPassengers);
+        Predicate<Car> isRed = Car.getColorCriterion("Red");
+        Predicate<Car> fourPassengers = c -> c.getPassengers().size() == 4;
+        Predicate<Car> redFourPassengers = isRed.and(fourPassengers);
         showAll(getByCriterion(cars, redFourPassengers));
 
-        Criterion<Car> isBlack = Car.getColorCriterion("Black");
-        Criterion<Car> blackOrFourPassenger = Criterion.or(isBlack,fourPassengers);
+        Predicate<Car> isBlack = Car.getColorCriterion("Black");
+        Predicate<Car> blackOrFourPassenger = isBlack.or(fourPassengers);
         showAll(getByCriterion(cars, blackOrFourPassenger));
 
 

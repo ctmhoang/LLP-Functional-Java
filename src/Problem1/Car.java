@@ -1,6 +1,7 @@
 package Problem1;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Car {
 
@@ -53,19 +54,19 @@ public class Car {
                 '}';
     }
 
-    public static Criterion getRedCarCriterion() {
-        return RED_CAR_CRITERION;
+    public static Predicate getRedCarCriterion() {
+        return RED_CAR_PREDICATE;
     }
 
-    private static final Criterion<Car> RED_CAR_CRITERION =
+    private static final Predicate<Car> RED_CAR_PREDICATE =
             c -> c.color.equalsIgnoreCase("red");
 
 
-    public static Criterion<Car> getGasLevelCriterion(int threshold) {
+    public static Predicate<Car> getGasLevelCriterion(int threshold) {
         return c -> c.gasLevel >= threshold;
     }
 
-    public  static Criterion<Car> getColorCriterion(String... colors){
+    public  static Predicate<Car> getColorCriterion(String... colors){
         Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
         return c -> colorSet.contains(c.getColor());
     }
