@@ -59,5 +59,8 @@ public class SuperIterable<E> implements Iterable<E> {
 
         System.out.println("-----------------------------------------------------");
         cars.filter(c -> c.getPassengers().size() > 3).flatMap(car -> new SuperIterable<>(car.getPassengers())).map(s -> s.toUpperCase(Locale.ROOT)).forEach(System.out::println);
+
+        System.out.println("-----------------------------------------------------");
+        cars.flatMap(c -> new SuperIterable<>(c.getPassengers()).map(s -> s + " is riding in a " + c.getColor() + " car")).forEach(System.out::println);
     }
 }

@@ -44,6 +44,10 @@ public class Car {
         return passengers;
     }
 
+    public Optional<List<String>> getTrunkContentsOpt() {
+        return Optional.ofNullable(trunkContents);
+    }
+
     public List<String> getTrunkContents() {
         return trunkContents;
     }
