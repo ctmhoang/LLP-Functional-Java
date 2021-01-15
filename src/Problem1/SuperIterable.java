@@ -1,11 +1,11 @@
 package Problem1;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class SuperIterable<E> implements Iterable<E> {
@@ -23,6 +23,13 @@ public class SuperIterable<E> implements Iterable<E> {
 
     public SuperIterable<E> filter(Predicate<E> pred) {
         return new SuperIterable<>(StreamSupport.stream(self.spliterator(), false).filter(pred).collect(Collectors.toList()));
+    }
+
+    public <F> SuperIterable<F> flatMap(Function<E,SuperIterable<F>> op){
+        return new SuperIterable<>(
+                StreamSupport.stream(self.spliterator(),false).map(op)
+                        .flatMap(si -> StreamSupport.stream(si.spliterator(),false))
+                        .collect(Collectors.toList()));
     }
 
     public <F> SuperIterable<F> map(Function<E, F> op) {
@@ -47,5 +54,10 @@ public class SuperIterable<E> implements Iterable<E> {
 
         cars.filter(Car.getGasLevelCriterion(6)).map(car -> car.getPassengers().get(0) + " is driving car " + car.getColor() + " with lots of fuel").forEach(System.out::println);
 
+        System.out.println("-----------------------------------------------------");
+        cars.map(car -> car.addGas(3)).forEach(System.out::println);
+
+        System.out.println("-----------------------------------------------------");
+        cars.filter(c -> c.getPassengers().size() > 3).flatMap(car -> new SuperIterable<>(car.getPassengers())).map(s -> s.toUpperCase(Locale.ROOT)).forEach(System.out::println);
     }
 }

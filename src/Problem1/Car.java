@@ -32,6 +32,10 @@ public class Car {
         return gasLevel;
     }
 
+    public Car addGas(int g) {
+        return new Car(gasLevel + g, color, passengers, trunkContents);
+    }
+
     public String getColor() {
         return color;
     }
@@ -66,7 +70,7 @@ public class Car {
         return c -> c.gasLevel >= threshold;
     }
 
-    public  static Predicate<Car> getColorCriterion(String... colors){
+    public static Predicate<Car> getColorCriterion(String... colors) {
         Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
         return c -> colorSet.contains(c.getColor());
     }
