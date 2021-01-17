@@ -25,7 +25,12 @@ final class Average {
 
 public class CollectAverage {
     public static void main(String[] args) {
-        var averager = DoubleStream.generate(() -> ThreadLocalRandom.current().nextDouble(-Math.PI, Math.PI)).limit(1_000).collect(Average::new,Average::include,Average::merge);
-        System.out.println(averager.get());
+        long startTime = System.nanoTime();
+        var averager = DoubleStream.generate(() -> ThreadLocalRandom.current().nextDouble(-Math.PI, Math.PI))
+                .parallel()
+                .unordered() // maintaining order in parallel mode is really expensive
+                .limit(4_000_000_000L).collect(Average::new,Average::include,Average::merge);
+        long endTime = System.nanoTime();
+        System.out.println(averager.get() + " done in " + (endTime - startTime) / 1_000_000 + " ms");
     }
 }
