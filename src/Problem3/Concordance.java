@@ -17,25 +17,15 @@ public class Concordance {
     private static final Comparator<Map.Entry<String,Long>> REVERSED_ORDER = VALUE_ORDER.reversed();
 
 
-    public static  <E,F> Function<E,Optional<F>> wrap(ExceptionFunction<E,F> op){
-        return e -> {
-            try {
-                return Optional.of(op.apply(e));
-            }catch (Throwable t){
-                return Optional.empty();
-            }
-        };
-    }
-
     public static void main(String[] args) {
         var books = List.of("resources/1342.txt","dontExisted.txt");
 
        books.stream()
                .map(Path::of)
-               .map(wrap(Files::lines))
-               .peek(b -> {if(b.isEmpty()) System.err.println("Bad read");})
-               .filter(Optional::isPresent)
-               .flatMap(Optional::get)
+               .map(Either.wrap(Files::lines))
+               .peek(p -> p.handle(System.err::println))
+               .filter(Either::successful)
+               .flatMap(Either::get)
                 .flatMap(WORD_EXTRACTOR::splitAsStream)
                 .filter(w -> w.length() > 0)
                 .map(String::toLowerCase)
